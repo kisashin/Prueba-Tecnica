@@ -1,9 +1,0 @@
-com\example\products\ProductsServiceApplication.class
-com\example\products\dto\ProductDTO.class
-com\example\products\dto\InventoryDTO.class
-com\example\products\service\ProductService$1.class
-com\example\products\repository\ProductRepository.class
-com\example\products\model\Product.class
-com\example\products\dto\JsonApiResponse.class
-com\example\products\service\ProductService.class
-com\example\products\controller\ProductController.class
