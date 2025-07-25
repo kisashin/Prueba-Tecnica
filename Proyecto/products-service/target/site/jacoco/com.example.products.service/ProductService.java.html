@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">products-service</a> &gt; <a href="index.source.html" class="el_package">com.example.products.service</a> &gt; <span class="el_source">ProductService.java</span></div><h1>ProductService.java</h1><pre class="source lang-java linenums">package com.example.products.service;
+
+import com.example.products.dto.ProductDTO;
+import com.example.products.dto.JsonApiResponse;
+import com.example.products.dto.InventoryDTO;
+import com.example.products.model.Product;
+import com.example.products.repository.ProductRepository;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+
+@Service
+public class ProductService {
+
+    private final ProductRepository repository;
+    private final RestTemplate restTemplate;
+<span class="fc" id="L20">    private final String inventoryUrl = &quot;http://localhost:8081/inventory/&quot;;</span>
+    private static final String API_KEY = &quot;secret-key-123&quot;; // misma clave del otro servicio
+
+<span class="fc" id="L23">    public ProductService(ProductRepository repository) {</span>
+<span class="fc" id="L24">        this.repository = repository;</span>
+<span class="fc" id="L25">        this.restTemplate = new RestTemplate();</span>
+<span class="fc" id="L26">    }</span>
+
+    public JsonApiResponse&lt;ProductDTO&gt; create(ProductDTO dto) {
+<span class="fc" id="L29">        Product p = new Product();</span>
+<span class="fc" id="L30">        p.setName(dto.name());</span>
+<span class="fc" id="L31">        p.setPrice(dto.price());</span>
+<span class="fc" id="L32">        p.setDescription(dto.description());</span>
+<span class="fc" id="L33">        Product saved = repository.save(p);</span>
+
+<span class="fc" id="L35">        ProductDTO response = new ProductDTO(</span>
+<span class="fc" id="L36">                saved.getId(),</span>
+<span class="fc" id="L37">                saved.getName(),</span>
+<span class="fc" id="L38">                saved.getPrice(),</span>
+<span class="fc" id="L39">                saved.getDescription(),</span>
+                0 // sin inventario aún
+        );
+
+<span class="fc" id="L43">        return new JsonApiResponse&lt;&gt;(&quot;product&quot;, String.valueOf(saved.getId()), response);</span>
+    }
+
+    public JsonApiResponse&lt;ProductDTO&gt; getById(Long id) {
+<span class="fc" id="L47">        Product p = repository.findById(id).orElseThrow();</span>
+<span class="fc" id="L48">        int quantity = getStockForProduct(p.getId());</span>
+
+<span class="fc" id="L50">        ProductDTO response = new ProductDTO(</span>
+<span class="fc" id="L51">                p.getId(),</span>
+<span class="fc" id="L52">                p.getName(),</span>
+<span class="fc" id="L53">                p.getPrice(),</span>
+<span class="fc" id="L54">                p.getDescription(),</span>
+                quantity
+        );
+
+<span class="fc" id="L58">        return new JsonApiResponse&lt;&gt;(&quot;product&quot;, String.valueOf(p.getId()), response);</span>
+    }
+
+    public List&lt;JsonApiResponse&lt;ProductDTO&gt;&gt; getAll() {
+<span class="fc" id="L62">        return repository.findAll().stream()</span>
+<span class="fc" id="L63">                .map(p -&gt; {</span>
+<span class="fc" id="L64">                    int quantity = getStockForProduct(p.getId());</span>
+<span class="fc" id="L65">                    ProductDTO dto = new ProductDTO(</span>
+<span class="fc" id="L66">                            p.getId(),</span>
+<span class="fc" id="L67">                            p.getName(),</span>
+<span class="fc" id="L68">                            p.getPrice(),</span>
+<span class="fc" id="L69">                            p.getDescription(),</span>
+                            quantity
+                    );
+<span class="fc" id="L72">                    return new JsonApiResponse&lt;&gt;(&quot;product&quot;, String.valueOf(p.getId()), dto);</span>
+                })
+<span class="fc" id="L74">                .toList();</span>
+    }
+
+    protected int getStockForProduct(Long productId) {
+        try {
+<span class="fc" id="L79">            HttpHeaders headers = new HttpHeaders();</span>
+<span class="fc" id="L80">            headers.set(&quot;X-API-KEY&quot;, API_KEY);</span>
+
+<span class="fc" id="L82">            HttpEntity&lt;Void&gt; entity = new HttpEntity&lt;&gt;(headers);</span>
+
+<span class="nc" id="L84">            ResponseEntity&lt;JsonApiResponse&lt;InventoryDTO&gt;&gt; response = restTemplate.exchange(</span>
+                    inventoryUrl + productId,
+                    HttpMethod.GET,
+                    entity,
+<span class="fc" id="L88">                    new ParameterizedTypeReference&lt;JsonApiResponse&lt;InventoryDTO&gt;&gt;() {}</span>
+            );
+
+<span class="nc" id="L91">            JsonApiResponse&lt;InventoryDTO&gt; body = response.getBody();</span>
+<span class="nc bnc" id="L92" title="All 4 branches missed.">            if (body != null &amp;&amp; body.attributes() != null) {</span>
+<span class="nc" id="L93">                return body.attributes().quantity();</span>
+            } else {
+<span class="nc" id="L95">                return 0;</span>
+            }
+
+<span class="fc" id="L98">        } catch (Exception e) {</span>
+<span class="fc" id="L99">            System.out.println(&quot;Error al consultar inventario: &quot; + e.getMessage());</span>
+<span class="fc" id="L100">            return 0;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

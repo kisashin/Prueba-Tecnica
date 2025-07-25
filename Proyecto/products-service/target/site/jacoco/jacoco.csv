@@ -1,0 +1,9 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+products-service,com.example.products.dto,ProductDTO,0,18,0,0,0,1,0,1,0,1
+products-service,com.example.products.dto,InventoryDTO,9,0,0,0,1,0,1,0,1,0
+products-service,com.example.products.dto,JsonApiResponse,0,12,0,0,0,1,0,1,0,1
+products-service,com.example.products,ProductsServiceApplication,5,3,0,0,2,1,1,1,1,1
+products-service,com.example.products.service,ProductService,30,149,4,0,5,40,2,6,0,6
+products-service,com.example.products.service,ProductService.new ParameterizedTypeReference() {...},0,6,0,0,0,1,0,1,0,1
+products-service,com.example.products.model,Product,12,31,0,0,5,10,1,9,1,9
+products-service,com.example.products.controller,ProductController,0,23,0,0,0,6,0,4,0,4

@@ -1,0 +1,12 @@
+com\example\products\repository\InventoryRepository.class
+com\example\products\controller\InventoryController.class
+com\example\products\dto\InventoryDTO.class
+com\example\products\dto\QuantityDTO.class
+com\example\products\InventoryServiceApplication.class
+com\example\products\model\Inventory.class
+com\example\products\service\InventoryService.class
+com\example\products\controller\GlobalExceptionHandler.class
+com\example\products\AppConfig.class
+com\example\products\dto\ApiError.class
+com\example\products\dto\JsonApiResponse.class
+com\example\products\dto\PurchaseDTO.class
