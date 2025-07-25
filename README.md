@@ -88,3 +88,29 @@ ChatGPT	                Documentación técnica y validación de estructura del 
 
 Únicamente se utilizaron herramientas de IA para generar documentación técnica y validar la claridad y completitud del proyecto. Todo el código y las pruebas fueron implementados manualmente.
 
+7. Pruebas Unitarias y Cobertura
+
+Se implementaron pruebas unitarias exhaustivas utilizando JUnit y Mockito, asegurando la robustez y calidad del código.
+
+Cobertura obtenida con JaCoCo:
+
+Products Service: Cobertura total del 81%
+
+Inventory Service: Cobertura total del 72%
+
+Cómo verificar resultados:
+
+Ejecuta los comandos:
+
+mvn test
+
+• Revisa los resultados generados por JaCoCo en la carpeta:
+
+target/site/jacoco/index.html
+
+Escenarios probados:
+
+• Products Service: creación, actualización y eliminación de productos, manejo de errores de productos no encontrados.
+
+• Inventory Service: creación de inventario, actualización, proceso de compra, validación de productos existentes en otro microservicio, manejo de errores de inventario insuficiente y producto no encontrado
+
