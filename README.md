@@ -11,7 +11,7 @@ Prerrequisitos:
 
 Instalación:
 1.	Clona el repositorio:
-git clone https://github.com/tu-repositorio/products-inventory.git
+git clone https://github.com/kisashin/Prueba-Tecnica
 2.	Navega al directorio del proyecto:
 cd products-inventory
 3.	Compila los microservicios:
