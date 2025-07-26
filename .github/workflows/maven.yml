@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Proyecto/products-service
 
     steps:
       - name: Checkout code
@@ -21,11 +24,10 @@ jobs:
           distribution: 'temurin'
 
       - name: Build and test with Maven
-        working-directory: products-service
         run: mvn clean verify
 
       - name: Upload JaCoCo Report
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
-          path: products-service/target/site/jacoco/index.html
+          path: Proyecto/products-service/target/site/jacoco/index.html
