@@ -1,6 +1,6 @@
 📚 Documentación de Microservicios (Products & Inventory)
 
-![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
+[![codecov](https://codecov.io/github/kisashin/Prueba-Tecnica/graph/badge.svg?token=OMUUDMOGQY)](https://codecov.io/github/kisashin/Prueba-Tecnica)
 
 Este proyecto comprende dos microservicios desarrollados con Spring Boot que interactúan entre sí mediante REST APIs con JSON. La documentación está elaborada para facilitar la instalación, ejecución y comprensión de la arquitectura implementada.
 
