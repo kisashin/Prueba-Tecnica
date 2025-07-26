@@ -31,3 +31,10 @@ jobs:
         with:
           name: jacoco-report
           path: Proyecto/products-service/target/site/jacoco/index.html
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./products-service/target/site/jacoco/jacoco.xml
+          flags: unittests
+          name: codecov-coverage
