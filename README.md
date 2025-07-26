@@ -88,7 +88,7 @@ ChatGPT	                Documentación técnica y validación de estructura del 
 
 Únicamente se utilizaron herramientas de IA para generar documentación técnica y validar la claridad y completitud del proyecto. Todo el código y las pruebas fueron implementados manualmente.
 
-7. Pruebas Unitarias y Cobertura
+🧪 7. Pruebas Unitarias y Cobertura
 
 Se implementaron pruebas unitarias exhaustivas utilizando JUnit y Mockito, asegurando la robustez y calidad del código.
 
